@@ -802,7 +802,8 @@
             height: 100vh;
             background: rgba(255, 255, 255, 0.1);
             z-index: 99;
-            pointer-events: none;
+            pointer-events: auto;
+            cursor: pointer;
         }
 
         .vertical-scroll-thumb {
@@ -814,8 +815,13 @@
             z-index: 99;
             border-radius: 2px;
             box-shadow: 0 0 8px rgba(118, 75, 162, 0.6);
-            pointer-events: none;
-            transition: height 0.1s ease;
+            pointer-events: auto;
+            transition: height 0.1s ease, width 0.2s ease;
+            cursor: grab;
+        }
+
+        .vertical-scroll-thumb:active {
+            cursor: grabbing;
         }
 
         @media (max-width: 600px) {
@@ -997,6 +1003,69 @@
         window.addEventListener('resize', () => {
             updateScrollProgress();
             updateVerticalScrollbar();
+        });
+
+        // Interactive Vertical Scrollbar
+        const scrollThumb = document.getElementById('scrollThumb');
+        const scrollTrack = document.querySelector('.vertical-scroll-track');
+        let isScrolling = false;
+
+        // Mouse down on scrollbar thumb
+        scrollThumb.addEventListener('mousedown', (e) => {
+            isScrolling = true;
+            scrollThumb.style.cursor = 'grabbing';
+            e.preventDefault();
+        });
+
+        // Mouse up anywhere
+        document.addEventListener('mouseup', () => {
+            isScrolling = false;
+            scrollThumb.style.cursor = 'grab';
+        });
+
+        // Mouse move to scroll
+        document.addEventListener('mousemove', (e) => {
+            if (!isScrolling) return;
+
+            const scrollTrackHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            
+            // Calculate new scroll position based on mouse Y position
+            let newScrollTop = (e.clientY / scrollTrackHeight) * documentHeight;
+            newScrollTop = Math.max(0, Math.min(newScrollTop, documentHeight - window.innerHeight));
+            
+            window.scrollTo({
+                top: newScrollTop,
+                behavior: 'auto'
+            });
+        });
+
+        // Click on scrollbar track to jump
+        scrollTrack.addEventListener('click', (e) => {
+            const scrollTrackHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            
+            let newScrollTop = (e.clientY / scrollTrackHeight) * documentHeight;
+            newScrollTop = Math.max(0, Math.min(newScrollTop, documentHeight - window.innerHeight));
+            
+            window.scrollTo({
+                top: newScrollTop,
+                behavior: 'smooth'
+            });
+        });
+
+        // Hover effect on scrollbar
+        scrollThumb.addEventListener('mouseenter', () => {
+            scrollThumb.style.cursor = 'grab';
+            scrollThumb.style.width = '6px';
+            scrollThumb.style.boxShadow = '0 0 12px rgba(118, 75, 162, 0.8)';
+        });
+
+        scrollThumb.addEventListener('mouseleave', () => {
+            if (!isScrolling) {
+                scrollThumb.style.width = '4px';
+                scrollThumb.style.boxShadow = '0 0 8px rgba(118, 75, 162, 0.6)';
+            }
         });
 
         // Confetti animation
