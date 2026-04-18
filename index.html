@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+            background: linear-gradient(135deg, #1a0033 0%, #2d0052 25%, #330066 50%, #1a0052 75%, #0d0033 100%);
             background-size: 400% 400%;
             animation: gradient 15s ease infinite;
             min-height: 100vh;
@@ -32,9 +32,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 20% 50%, rgba(240, 147, 251, 0.3) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(79, 172, 254, 0.3) 0%, transparent 50%),
-                        radial-gradient(circle at 50% 0%, rgba(160, 217, 206, 0.2) 0%, transparent 50%);
+            background: radial-gradient(circle at 20% 50%, rgba(255, 20, 147, 0.4) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(65, 105, 225, 0.4) 0%, transparent 50%),
+                        radial-gradient(circle at 50% 0%, rgba(255, 105, 180, 0.3) 0%, transparent 50%);
             animation: bgShift 20s ease-in-out infinite;
             pointer-events: none;
             z-index: 1;
@@ -88,6 +88,8 @@
             pointer-events: none;
             z-index: 0;
             animation: floatUp 8s ease-in infinite;
+            filter: drop-shadow(0 0 8px currentColor);
+            text-shadow: 0 0 20px currentColor;
         }
 
         @keyframes floatUp {
@@ -104,6 +106,22 @@
             100% {
                 opacity: 0;
                 transform: translateY(-100vh) translateX(100px) scale(0);
+            }
+        }
+
+        /* Glowing heart animation */
+        .glowing-heart {
+            animation: heartGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes heartGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 5px currentColor);
+                transform: scale(1);
+            }
+            50% {
+                filter: drop-shadow(0 0 20px currentColor) drop-shadow(0 0 40px currentColor);
+                transform: scale(1.1);
             }
         }
 
@@ -1216,20 +1234,56 @@
             });
         }
 
+        // Create static glowing hearts background on load
+        function createStaticHearts() {
+            const heartCount = 30;
+            const heartEmojis = ['💖', '💕', '💝', '💗', '💓', '❤️', '🧡', '💛'];
+            const colors = ['#ff1493', '#ff69b4', '#ff0040', '#ff00ff', '#4169e1', '#1e90ff', '#ffd700', '#ffb347'];
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+                heart.style.position = 'fixed';
+                heart.style.left = Math.random() * window.innerWidth + 'px';
+                heart.style.top = Math.random() * window.innerHeight + 'px';
+                heart.style.fontSize = (Math.random() * 1.5 + 1) + 'em';
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.pointerEvents = 'none';
+                heart.style.zIndex = '0';
+                heart.style.opacity = Math.random() * 0.5 + 0.2;
+                heart.style.animation = `heartGlow ${Math.random() * 2 + 2}s ease-in-out infinite`;
+                heart.style.filter = 'drop-shadow(0 0 8px currentColor)';
+                heart.style.textShadow = '0 0 20px currentColor';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                
+                document.body.appendChild(heart);
+            }
+        }
+
         // Create floating hearts background
         function createFloatingHearts() {
             setInterval(() => {
                 const heart = document.createElement('div');
-                heart.className = 'floating-heart';
-                heart.textContent = ['💖', '💕', '💝', '💗', '💓'][Math.floor(Math.random() * 5)];
+                heart.className = 'floating-heart glowing-heart';
+                
+                // Color palette from the hearts image
+                const heartEmojis = ['💖', '💕', '💝', '💗', '💓', '❤️', '🧡', '💛', '💚', '💙'];
+                heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+                
                 heart.style.left = Math.random() * window.innerWidth + 'px';
                 heart.style.top = window.innerHeight + 'px';
                 heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
-                heart.style.opacity = Math.random() * 0.5 + 0.3;
+                heart.style.opacity = Math.random() * 0.7 + 0.3;
+                heart.style.fontSize = (Math.random() * 1.5 + 1.5) + 'em';
+                
+                // Add color styling
+                const colors = ['#ff1493', '#ff69b4', '#ff0040', '#ff00ff', '#4169e1', '#1e90ff', '#ffd700', '#ffb347'];
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                
                 document.body.appendChild(heart);
                 
                 setTimeout(() => heart.remove(), 10000);
-            }, 300);
+            }, 200);
         }
 
         // Create twinkling stars
@@ -1304,6 +1358,7 @@
         // Create confetti on page load
         window.addEventListener('load', () => {
             setTimeout(() => {
+                createStaticHearts();
                 createTwinklingStars();
                 createFloatingHearts();
                 createBackgroundShapes();
