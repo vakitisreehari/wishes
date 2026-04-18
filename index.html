@@ -779,9 +779,64 @@
                 margin-top: 20px;
             }
         }
+
+        /* Progress Scrollbar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #4facfe);
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.1s ease;
+            box-shadow: 0 2px 10px rgba(118, 75, 162, 0.5);
+        }
+
+        /* Optional: Vertical scrollbar on right side */
+        .vertical-scroll-track {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 4px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 99;
+            pointer-events: none;
+        }
+
+        .vertical-scroll-thumb {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            z-index: 99;
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(118, 75, 162, 0.6);
+            pointer-events: none;
+            transition: height 0.1s ease;
+        }
+
+        @media (max-width: 600px) {
+            .scroll-progress {
+                height: 3px;
+            }
+            .vertical-scroll-track,
+            .vertical-scroll-thumb {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Progress Scrollbar (Top) -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Vertical Scrollbar Track -->
+    <div class="vertical-scroll-track"></div>
+    <div class="vertical-scroll-thumb" id="scrollThumb"></div>
+
     <div class="container">
         <div style="margin-bottom: 20px;">
             <span class="balloon">🎈</span>
@@ -905,6 +960,43 @@
             } else {
                 scrollBtn.style.pointerEvents = 'auto';
             }
+
+            // Update Progress Scrollbar
+            updateScrollProgress();
+            updateVerticalScrollbar();
+        });
+
+        // Progress Scrollbar Functions
+        function updateScrollProgress() {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            scrollProgress.style.width = scrollPercentage + '%';
+        }
+
+        function updateVerticalScrollbar() {
+            const scrollThumb = document.getElementById('scrollThumb');
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.scrollY;
+            
+            // Calculate thumb height and position
+            const thumbHeight = (windowHeight / documentHeight) * windowHeight;
+            const thumbTop = (scrollTop / documentHeight) * windowHeight;
+            
+            scrollThumb.style.height = Math.max(thumbHeight, 20) + 'px';
+            scrollThumb.style.top = thumbTop + 'px';
+        }
+
+        // Initialize scrollbar on load
+        window.addEventListener('load', () => {
+            updateScrollProgress();
+            updateVerticalScrollbar();
+        });
+
+        // Update on window resize
+        window.addEventListener('resize', () => {
+            updateScrollProgress();
+            updateVerticalScrollbar();
         });
 
         // Confetti animation
