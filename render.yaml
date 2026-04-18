@@ -1,4 +1,6 @@
 services:
-  - type: static_site
+  - type: web
     name: birthday-wishes
     staticPublishPath: .
+    buildCommand: ""
+    startCommand: ""
