@@ -863,7 +863,7 @@
             Wishing you a day filled with joy, laughter, and wonderful moments!
         </p>
 
-        <div class="surprise-text">✨ SURPRISE! ✨</div>
+        <div class="surprise-text">✨ 👉 ఇది క్లిక్ చేయి! ✨</div>
 
         <div style="margin: 20px 0; font-size: 1.2em;">
             <span class="popup-text">🎁 You're Amazing!</span>
@@ -880,12 +880,12 @@
         </div>
 
         <div style="margin: 30px 0; font-size: 1.4em;">
-            <span class="tada-text">Best Friend Ever! 👯</span>
+            <span class="tada-text">you're always my best and unforgettable! 👯</span>
         </div>
 
         <p class="message">
-            <span class="sliding-text">Thank you for being an incredible friend!</span><br><br>
-            Your kindness, warmth, and friendship mean the world to us. We hope this year brings you endless joy, success, and beautiful memories!
+            <span class="sliding-text">Thank you for being an incredible one of me.!</span><br><br>
+            Your kindness, warmth, and smile on ur face mean the world to me. i hope this year brings you endless joy, success, and beautiful memories!
         </p>
 
         <div style="margin: 30px 0; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
@@ -897,13 +897,13 @@
         </div>
 
         <div style="margin: 25px 0; font-size: 1.3em; font-weight: bold;">
-            <span class="pulse-text">You Deserve ALL The Happiness! 🌟</span>
+            <span class="pulse-text">nuvvu korukunna prathidhi jaragaali ani aa devudni korukuntunna maaa....💖! 🌟</span>
         </div>
 
         <div class="button-group">
             <button class="btn btn-primary" onclick="makeWish()">
                 <span style="display: inline-block; margin-right: 8px;">🎊</span>
-                <span>Make a Wish</span>
+                <span>hit me</span>
                 <span style="display: inline-block; margin-left: 8px;">🎊</span>
             </button>
             <button class="btn btn-secondary" onclick="playMusic()">
@@ -927,44 +927,47 @@
     <script>
         // Scroll Down Button Functionality
         const scrollBtn = document.getElementById('scrollBtn');
-        let isScrolling = false;
+        let isScrollingDown = false;
 
-        scrollBtn.addEventListener('click', () => {
-            if (isScrolling) return;
-            isScrolling = true;
+        if (scrollBtn) {
+            scrollBtn.addEventListener('click', () => {
+                if (isScrollingDown) return;
+                isScrollingDown = true;
 
-            const currentScroll = window.scrollY;
-            const pageHeight = document.documentElement.scrollHeight;
-            const windowHeight = window.innerHeight;
-            const scrollDistance = windowHeight * 0.8;
-            const targetScroll = Math.min(currentScroll + scrollDistance, pageHeight - windowHeight);
+                const currentScroll = window.scrollY;
+                const pageHeight = document.documentElement.scrollHeight;
+                const windowHeight = window.innerHeight;
+                const scrollDistance = windowHeight * 0.8;
+                const targetScroll = Math.min(currentScroll + scrollDistance, pageHeight - windowHeight);
 
-            window.scrollBy({
-                top: scrollDistance,
-                behavior: 'smooth'
+                window.scrollBy({
+                    top: scrollDistance,
+                    behavior: 'smooth'
+                });
+
+                setTimeout(() => {
+                    isScrollingDown = false;
+                }, 500);
             });
-
-            setTimeout(() => {
-                isScrolling = false;
-            }, 500);
-        });
+        }
 
         // Show/hide scroll button based on scroll position
         window.addEventListener('scroll', () => {
-            const scrollBtn = document.getElementById('scrollBtn');
-            if (window.scrollY > 100) {
-                scrollBtn.style.opacity = '0.7';
-            } else {
-                scrollBtn.style.opacity = '1';
-            }
+            if (scrollBtn) {
+                if (window.scrollY > 100) {
+                    scrollBtn.style.opacity = '0.7';
+                } else {
+                    scrollBtn.style.opacity = '1';
+                }
 
-            // Hide button at bottom of page
-            const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            if (scrollPercentage > 95) {
-                scrollBtn.style.pointerEvents = 'none';
-                scrollBtn.style.opacity = '0.3';
-            } else {
-                scrollBtn.style.pointerEvents = 'auto';
+                // Hide button at bottom of page
+                const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                if (scrollPercentage > 95) {
+                    scrollBtn.style.pointerEvents = 'none';
+                    scrollBtn.style.opacity = '0.3';
+                } else {
+                    scrollBtn.style.pointerEvents = 'auto';
+                }
             }
 
             // Update Progress Scrollbar
@@ -975,22 +978,26 @@
         // Progress Scrollbar Functions
         function updateScrollProgress() {
             const scrollProgress = document.getElementById('scrollProgress');
-            const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            scrollProgress.style.width = scrollPercentage + '%';
+            if (scrollProgress) {
+                const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                scrollProgress.style.width = scrollPercentage + '%';
+            }
         }
 
         function updateVerticalScrollbar() {
             const scrollThumb = document.getElementById('scrollThumb');
-            const windowHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight;
-            const scrollTop = window.scrollY;
-            
-            // Calculate thumb height and position
-            const thumbHeight = (windowHeight / documentHeight) * windowHeight;
-            const thumbTop = (scrollTop / documentHeight) * windowHeight;
-            
-            scrollThumb.style.height = Math.max(thumbHeight, 20) + 'px';
-            scrollThumb.style.top = thumbTop + 'px';
+            if (scrollThumb) {
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                const scrollTop = window.scrollY;
+                
+                // Calculate thumb height and position
+                const thumbHeight = (windowHeight / documentHeight) * windowHeight;
+                const thumbTop = (scrollTop / documentHeight) * windowHeight;
+                
+                scrollThumb.style.height = Math.max(thumbHeight, 20) + 'px';
+                scrollThumb.style.top = thumbTop + 'px';
+            }
         }
 
         // Initialize scrollbar on load
@@ -1008,65 +1015,69 @@
         // Interactive Vertical Scrollbar
         const scrollThumb = document.getElementById('scrollThumb');
         const scrollTrack = document.querySelector('.vertical-scroll-track');
-        let isScrolling = false;
+        let isScrollbarDragging = false;
 
-        // Mouse down on scrollbar thumb
-        scrollThumb.addEventListener('mousedown', (e) => {
-            isScrolling = true;
-            scrollThumb.style.cursor = 'grabbing';
-            e.preventDefault();
-        });
-
-        // Mouse up anywhere
-        document.addEventListener('mouseup', () => {
-            isScrolling = false;
-            scrollThumb.style.cursor = 'grab';
-        });
-
-        // Mouse move to scroll
-        document.addEventListener('mousemove', (e) => {
-            if (!isScrolling) return;
-
-            const scrollTrackHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight;
-            
-            // Calculate new scroll position based on mouse Y position
-            let newScrollTop = (e.clientY / scrollTrackHeight) * documentHeight;
-            newScrollTop = Math.max(0, Math.min(newScrollTop, documentHeight - window.innerHeight));
-            
-            window.scrollTo({
-                top: newScrollTop,
-                behavior: 'auto'
+        if (scrollThumb && scrollTrack) {
+            // Mouse down on scrollbar thumb
+            scrollThumb.addEventListener('mousedown', (e) => {
+                isScrollbarDragging = true;
+                scrollThumb.style.cursor = 'grabbing';
+                e.preventDefault();
             });
-        });
 
-        // Click on scrollbar track to jump
-        scrollTrack.addEventListener('click', (e) => {
-            const scrollTrackHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight;
-            
-            let newScrollTop = (e.clientY / scrollTrackHeight) * documentHeight;
-            newScrollTop = Math.max(0, Math.min(newScrollTop, documentHeight - window.innerHeight));
-            
-            window.scrollTo({
-                top: newScrollTop,
-                behavior: 'smooth'
+            // Mouse up anywhere
+            document.addEventListener('mouseup', () => {
+                isScrollbarDragging = false;
+                if (scrollThumb) {
+                    scrollThumb.style.cursor = 'grab';
+                }
             });
-        });
 
-        // Hover effect on scrollbar
-        scrollThumb.addEventListener('mouseenter', () => {
-            scrollThumb.style.cursor = 'grab';
-            scrollThumb.style.width = '6px';
-            scrollThumb.style.boxShadow = '0 0 12px rgba(118, 75, 162, 0.8)';
-        });
+            // Mouse move to scroll
+            document.addEventListener('mousemove', (e) => {
+                if (!isScrollbarDragging) return;
 
-        scrollThumb.addEventListener('mouseleave', () => {
-            if (!isScrolling) {
-                scrollThumb.style.width = '4px';
-                scrollThumb.style.boxShadow = '0 0 8px rgba(118, 75, 162, 0.6)';
-            }
-        });
+                const scrollTrackHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                
+                // Calculate new scroll position based on mouse Y position
+                let newScrollTop = (e.clientY / scrollTrackHeight) * documentHeight;
+                newScrollTop = Math.max(0, Math.min(newScrollTop, documentHeight - window.innerHeight));
+                
+                window.scrollTo({
+                    top: newScrollTop,
+                    behavior: 'auto'
+                });
+            });
+
+            // Click on scrollbar track to jump
+            scrollTrack.addEventListener('click', (e) => {
+                const scrollTrackHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                
+                let newScrollTop = (e.clientY / scrollTrackHeight) * documentHeight;
+                newScrollTop = Math.max(0, Math.min(newScrollTop, documentHeight - window.innerHeight));
+                
+                window.scrollTo({
+                    top: newScrollTop,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Hover effect on scrollbar
+            scrollThumb.addEventListener('mouseenter', () => {
+                scrollThumb.style.cursor = 'grab';
+                scrollThumb.style.width = '6px';
+                scrollThumb.style.boxShadow = '0 0 12px rgba(118, 75, 162, 0.8)';
+            });
+
+            scrollThumb.addEventListener('mouseleave', () => {
+                if (!isScrollbarDragging) {
+                    scrollThumb.style.width = '4px';
+                    scrollThumb.style.boxShadow = '0 0 8px rgba(118, 75, 162, 0.6)';
+                }
+            });
+        }
 
         // Confetti animation
         function createConfetti() {
@@ -1109,7 +1120,7 @@
             createConfetti();
             showSurpriseText();
             rippleEffect(event);
-            alert('🎉 Your wish has been made!\n\n✨ Wishing all your dreams come true, Apeksha! ✨\n\n🌟 May this year be your best year yet! 🌟');
+            alert('🎉 na wishes neeku vachhayi ani anukkuntunna!\n\n✨ Wishing all your dreams come true, Apeksha! ✨\n\n🌟 May this year be your best year yet! 🌟');
         }
 
         function playMusic() {
@@ -1146,11 +1157,11 @@
 
         function showSurpriseText() {
             const surprises = [
-                '🎊 You Rock! 🎊',
-                '💖 Stay Awesome! 💖',
+                '🎊happy ga undu! 🎊',
+                '💖 Stay Awesome,yeppudu navvuthu undu! 💖',
                 '🌟 Keep Shining! 🌟',
                 '🎉 Celebrate Hard! 🎉',
-                '✨ Be Happy! ✨',
+                '✨ nee happy ye na happy! ✨',
                 '🎈 Enjoy Every Moment! 🎈'
             ];
             
@@ -1304,7 +1315,7 @@
         // Fun easter egg - double click on name
         document.querySelector('.name').addEventListener('dblclick', function() {
             createConfetti();
-            alert('💝 Double clicked! Extra special wishes coming your way! 💝\n\n🎊 You are absolutely WONDERFUL, Apeksha! 🎊');
+            alert('💝 Double clicked! Extra special wishes coming your way! 💝\n\n🎊 always nuvvu naku special, Apeksha! 🎊');
         });
     </script>
 </body>
