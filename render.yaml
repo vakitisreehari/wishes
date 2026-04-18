@@ -2,8 +2,3 @@ services:
   - type: static_site
     name: birthday-wishes
     staticPublishPath: .
-    buildCommand: ""
-    envVars: []
-    routes:
-      - path: /
-        redirect: /index.html
