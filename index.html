@@ -798,6 +798,69 @@
                 height: 3px;
             }
         }
+
+        /* Navigation Bar */
+        .nav-bar {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px 20px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(118, 75, 162, 0.2);
+        }
+
+        .nav-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(118, 75, 162, 0.6);
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .nav-btn.top-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .nav-btn.bottom-btn {
+            background: linear-gradient(135deg, #f093fb, #4facfe);
+        }
+
+        @media (max-width: 600px) {
+            .nav-bar {
+                bottom: 20px;
+                padding: 10px 15px;
+                gap: 10px;
+            }
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -885,6 +948,12 @@
         <span class="scroll-arrow">⬇️</span>
     </div>
 
+    <!-- Top-Bottom Navigation Bar -->
+    <div class="nav-bar">
+        <button class="nav-btn top-btn" id="topBtn" title="Scroll to Top">⬆️</button>
+        <button class="nav-btn bottom-btn" id="bottomBtn" title="Scroll to Bottom">⬇️</button>
+    </div>
+
     <script>
         // Scroll Down Button Functionality
         const scrollBtn = document.getElementById('scrollBtn');
@@ -947,11 +1016,68 @@
         // Initialize scrollbar on load
         window.addEventListener('load', () => {
             updateScrollProgress();
+            
+            // Set initial nav button states
+            if (topBtn) {
+                topBtn.style.opacity = '0.5';
+                topBtn.style.pointerEvents = 'none';
+            }
+            if (bottomBtn) {
+                bottomBtn.style.opacity = '1';
+                bottomBtn.style.pointerEvents = 'auto';
+            }
         });
 
         // Update on window resize
         window.addEventListener('resize', () => {
             updateScrollProgress();
+        });
+
+        // Top-Bottom Navigation Functionality
+        const topBtn = document.getElementById('topBtn');
+        const bottomBtn = document.getElementById('bottomBtn');
+
+        if (topBtn) {
+            topBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        if (bottomBtn) {
+            bottomBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: document.documentElement.scrollHeight,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        // Show/hide nav buttons based on scroll position
+        window.addEventListener('scroll', () => {
+            if (topBtn && bottomBtn) {
+                const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                
+                // Show top button after scrolling down
+                if (window.scrollY > 300) {
+                    topBtn.style.opacity = '1';
+                    topBtn.style.pointerEvents = 'auto';
+                } else {
+                    topBtn.style.opacity = '0.5';
+                    topBtn.style.pointerEvents = 'none';
+                }
+
+                // Show bottom button when not at bottom
+                if (scrollPercentage < 90) {
+                    bottomBtn.style.opacity = '1';
+                    bottomBtn.style.pointerEvents = 'auto';
+                } else {
+                    bottomBtn.style.opacity = '0.5';
+                    bottomBtn.style.pointerEvents = 'none';
+                }
+            }
         });
 
         // Confetti animation
