@@ -1,6 +1,6 @@
 # 🎉 Birthday Wishes Website
 
-A beautiful, animated birthday wish website created with love for Apeksha!
+A beautiful, animated birthday wish website created with love!
 
 ## ✨ Features
 
